@@ -4,8 +4,8 @@ var map_size = 8;
 var points_all = 0;
 var score = 0;
 var can = document.getElementById("myCanvas");
-var size_x = 800;
-var size_y = 800;
+var size_x = 600;
+var size_y = 600;
 var len = 8;
 var oldlen = len;
 
@@ -247,7 +247,7 @@ const klocek = {
 
         if(this.kpos_x < x+len && this.kpos_x+this.ksize_x > x-len && this.kpos_y < y+len && this.kpos_y+this.ksize_y > y-len)
 		{
-					if(isCharged > 0)
+		if(isCharged > 0)
 		{
 		isCharged = isCharged - 1;
 		this.kdurability = 0;	
@@ -302,8 +302,7 @@ function Gen_Map()
    
    
 
-  
-  
+ 
   klocki_array.push(Object.create(klocek));
   console.log( klocki_array );
   klocki_array[i].Setup();
@@ -479,14 +478,14 @@ getLevelPoints();
 
 function velo_anticheat()
 {
-	if(velo_x > len*2.5) velo_x=len*2.5;
-	else if(velo_y > len*2.5) velo_y=-len*2.5;
-	else if(velo_x < -len*2.5) velo_x=-len*2.5;
-	else if(velo_y < -len*2.5) velo_y=-len*2.5;
-	else if(velo_x > -len/2.5 && velo_x < 0) velo_x=-len/2.5;
-	else if(velo_y > -len/2.5 && velo_y < 0) velo_y=-len/2.5;
-	else if(velo_x < len/2.5 && velo_x > 0) velo_x=len/2.5;
-	else if(velo_y < len/2.5 && velo_y > 0) velo_y=len/2.5;
+	if(velo_x > len*2.2) velo_x=len*2.2;
+	else if(velo_y > len*2.2) velo_y=-len*2.5;
+	else if(velo_x < -len*2.2) velo_x=-len*2.5;
+	else if(velo_y < -len*2.2) velo_y=-len*2.5;
+	else if(velo_x > -len/2.2 && velo_x < 0) velo_x=-len/2.5;
+	else if(velo_y > -len/2.2 && velo_y < 0) velo_y=-len/2.5;
+	else if(velo_x < len/2.2 && velo_x > 0) velo_x=len/2.5;
+	else if(velo_y < len/2.2 && velo_y > 0) velo_y=len/2.5;
 }
 function render()
 {
@@ -695,10 +694,24 @@ if(IsPadSprint==1)
 }
 function FcollisionBorder()
 {
+//za renderem 
+if(x > size_x+len) {
+	x = size_x-10-len;
+	velo_x = -velo_x/2;
+}
+else if (x < 0-len){ 
+x = 10+len;
+velo_x = -velo_x/2;
+}
 
+if (y < 0-len) {
+	y = 10+len;
+	velo_y = -velo_y/2;
+}
+///
 
     //prawa
-	if(x >= len && !(x > len && x < size_x-len)){
+	if(velo_x >= 0 && x >= len && !(x > len && x < size_x-len)){
     velo_x = -velo_x-(len/6);
     if(velo_x <= -(len*4)){
 	velo_x = -(len*4);
@@ -711,7 +724,7 @@ function FcollisionBorder()
 	}
 
     //lewa
-	else if(x <= 600-len && !(x > len && x < size_x-len)){
+	else if(velo_x <= 0 && x <= size_x-len && !(x > len && x < size_x-len)){
      velo_x = -velo_x+(len/6);
 	if(velo_x >= len*4){
 	velo_x = len*4;
@@ -726,21 +739,20 @@ function FcollisionBorder()
 	
 	//górna
 
-	if(y < 600-len && !(y > len && y < size_y-len) ){
+	if(velo_y <= 0 && y <= size_y-len && !(y > len && y < size_y-len) ){
 	velo_y = -velo_y+(len/4);
 	if(velo_y <= -(len*3)){
 	velo_y = -(len*3);
 	}	
-		if(isCharged>0)
+	if(isCharged<0) isCharged=0;
+	else if(isCharged>0)
 	{
 		isCharged--;
-		if(isCharged<0) isCharged=0;
+		
 	}
 	}
 
 
-
-	
 }
 function FcollisionBottom()
 {
