@@ -101,8 +101,11 @@ const klocek = {
 		   getLevelPoints();
 		   }else{
 		   GetUpgrade("Pad size grows!",3);
+		   if(rect_x_e+4 > 500) rect_x_e = 500;
+		   else{
 		   rect_x_e = rect_x_e + 4;
 		   rect_x = rect_x - 2;
+		   }
 		   }
 		  
 	   }
@@ -112,20 +115,14 @@ const klocek = {
 		   
 		   GetUpgrade("Ball speed is increased!",1);
 		  
-		   if(velo_x > 0){ 
-		   velo_x = velo_x + len/2;
-		   }else if(velo_x < 0)
-		   {
-			velo_x = velo_x - len/2;
-		   }
+		   if(velo_x > 0) velo_x = velo_x + len/2;
+		   else if(velo_x < 0)velo_x = velo_x - len/2;
 		   
 		   
-		   if(velo_y > 0){ 
-		   velo_y = velo_y + len/2;
-		   }else if(velo_y < 0)
-		   {
-			velo_y = velo_y - len/2;
-		   }
+		   
+		   if(velo_y > 0)velo_y = velo_y + len/2;
+		   else if(velo_y < 0) velo_y = velo_y - len/2;
+		   
 	   } 
 	   //5
 	   else if(this.Upgrade == 5){
@@ -140,7 +137,9 @@ const klocek = {
 		  
 			   
 		   GetUpgrade("The ball grows!",3);
-		   len=len*1.5;
+		   if(len*1.5 > 80)len = 80; 
+		   else len=len*1.5;
+		   
 		   BG_upgrade_timeout = setTimeout(function(){len=oldlen; }, 3500);
 	   } 
 	   //7
@@ -164,7 +163,8 @@ const klocek = {
 	   else if(this.Upgrade == 9){
 		     clearTimeout(PS_upgrade_timeout);
 		   	 GetUpgrade("Pad speed is incrased!",1);
-		     velo_bar = velo_bar*1.45;
+			 if(velo_bar*1.45 >50) velo_bar = 50;
+			 else velo_bar = velo_bar*1.45;
 			 IsPadSpeedincrased=1;
 		     PS_upgrade_timeout = setTimeout(function(){velo_bar=oldvelo_bar; IsPadSpeedincrased=0; }, 3500);			 
 	   } 
@@ -213,7 +213,9 @@ const klocek = {
 	   else if(this.Upgrade == 16){
 		   GetUpgrade("Your pad is tiny!",2);
 		   clearTimeout(TIN_upgrade_timeout);
- 		   rect_x_e=rect_x_e/2;
+		   if (rect_x_e/2 < 20)  rect_x_e = 20;
+		   else  rect_x_e=rect_x_e/2;
+		   
            TIN_upgrade_timeout = setTimeout(function(){rect_x_e=oldrect_x_e; IsTiny = 0; }, 7500);
            
 	   }
